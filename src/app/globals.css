@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-cyber-900 text-white font-neon antialiased;
+  }
+}
+
+@layer components {
+  .cyber-glass {
+    @apply bg-white/5 backdrop-blur-2xl border border-neon-cyan/30 shadow-2xl shadow-neon-cyan/10;
+  }
+  
+  .neon-glow {
+    @apply relative;
+    box-shadow: 0 0 5px #00FFFF, 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 40px #00FFFF;
+  }
+  
+  .neon-glow:hover {
+    box-shadow: 0 0 20px #FF00FF, 0 0 30px #FF00FF, 0 0 40px #FF00FF, 0 0 50px #FF00FF;
+  }
+  
+  .glitch {
+    animation: glitch 1s infinite;
+  }
+  
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+  
+  .matrix-rain {
+    background: linear-gradient(180deg, #000 0%, #001100 50%, #000 100%);
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.font-cyber { font-family: 'Orbitron', monospace; }
+.font-neon { font-family: 'Rajdhani', sans-serif; }
