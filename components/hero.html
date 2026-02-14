@@ -1,45 +1,26 @@
-<section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-  
-  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/20 blur-[120px] rounded-full"></div>
-    <div class="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-pink-600/10 blur-[100px] rounded-full"></div>
-  </div>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8 animate-bounce">
-      <span class="relative flex h-2 w-2">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
-      </span>
-      <span class="text-xs font-medium text-slate-300 uppercase tracking-widest">v2.0 Modular Engine Live</span>
-    </div>
-
-    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6">
-      Generate the <br />
-      <span class="text-gradient">Impossible.</span>
+<section class="relative pt-32 pb-20 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    
+    <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
+      Generate <span class="text-gradient">Unlimited.</span>
     </h1>
 
-    <p class="max-w-2xl mx-auto text-lg md:text-xl text-slate-400 mb-10 leading-relaxed">
-      Epic Tech AI is the world's first modular ecosystem for generative media. 
-      Create, remix, and evolve images, video, and audio in one unified workflow.
-    </p>
-
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <button class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#7928ca] to-[#ff0080] text-white font-bold text-lg btn-glow">
-        Start Creating Free
-      </button>
-      <button class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card text-white font-semibold hover:bg-white/10 transition-all border border-white/10">
-        View Showcase
-      </button>
-    </div>
-
-    <div class="mt-20 relative max-w-5xl mx-auto">
-      <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10"></div>
-      <div class="glass-card p-2 rounded-2xl border-white/5 shadow-2xl">
-        <div class="rounded-xl overflow-hidden bg-slate-900 aspect-video flex items-center justify-center border border-white/10">
-           <span class="text-slate-700 font-mono italic">[ AI Generation Interface Preview ]</span>
-        </div>
+    <div class="max-w-3xl mx-auto mt-12 p-6 glass-card border-white/20">
+      <div class="flex flex-col md:flex-row gap-4">
+        <input id="user-prompt" type="text" 
+               placeholder="Describe something epic (e.g. 'Cyberpunk city in a bottle')" 
+               class="flex-1 bg-slate-900 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-pink-500 transition-all">
+        
+        <button id="generate-btn" onclick="generateMedia(document.getElementById('user-prompt').value)"
+                class="px-8 py-4 rounded-xl bg-gradient-to-r from-[#7928ca] to-[#ff0080] text-white font-bold btn-glow">
+          Generate Free
+        </button>
+      </div>
+      
+      <div id="preview-window" class="mt-8 aspect-video bg-slate-900/50 rounded-xl border border-dashed border-white/10 flex items-center justify-center overflow-hidden">
+        <p class="text-slate-500 italic">Your masterpiece will appear here</p>
       </div>
     </div>
+
   </div>
 </section>
