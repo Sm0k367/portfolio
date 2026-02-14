@@ -1,58 +1,79 @@
 /**
- * Main Application Logic
- * Handles user interactions and "Free" AI Generation
+ * main.js - The "Action" Script
+ * Connects the UI to the AI Generation Engine
  */
 
-async function generateMedia(prompt) {
-    const btn = document.querySelector('#generate-btn');
-    const display = document.querySelector('#preview-window');
+async function generateMedia() {
+    const promptInput = document.getElementById('user-prompt');
+    const btn = document.getElementById('generate-btn');
+    const display = document.getElementById('preview-window');
     
-    if (!prompt) return alert("Please enter a prompt!");
+    const prompt = promptInput.value.trim();
+    if (!prompt) {
+        alert("Please enter a description first!");
+        return;
+    }
 
-    // Update UI to loading state
+    // 1. UI State: Loading
     btn.innerText = "Generating...";
     btn.disabled = true;
-    display.innerHTML = `<div class="animate-pulse flex flex-col items-center">
-                            <div class="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                            <p class="text-slate-400">Consulting the AI Oracle...</p>
-                         </div>`;
+    display.innerHTML = `
+        <div class="flex flex-col items-center">
+            <div class="w-10 h-10 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-slate-400 animate-pulse">AI is dreaming up your image...</p>
+        </div>
+    `;
 
     try {
-        // USING HUGGING FACE FREE INFERENCE (Stable Diffusion XL)
-        // Note: In a production app, you'd put your free API key in an environment variable
+        // 2. Fetch from Hugging Face (Stable Diffusion XL)
+        // This is a public endpoint. For high volume, get a free token at huggingface.co
         const response = await fetch(
             "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
             {
-                headers: { Authorization: "Bearer YOUR_FREE_TOKEN_HERE" }, // Optional: Works for a few calls even without token
                 method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ inputs: prompt }),
             }
         );
 
+        if (!response.ok) throw new Error("API Limit reached. Try again in a moment!");
+
         const blob = await response.blob();
         const imageUrl = URL.createObjectURL(blob);
 
-        // Display the result
-        display.innerHTML = `<img src="${imageUrl}" class="rounded-lg shadow-2xl animate-in zoom-in duration-500" alt="Generated AI Media">`;
+        // 3. UI State: Success
+        display.innerHTML = `
+            <div class="relative group h-full w-full flex items-center justify-center">
+                <img src="${imageUrl}" class="max-h-full rounded-lg shadow-2xl animate-in fade-in zoom-in duration-700" alt="Generated Media">
+                <a href="${imageUrl}" download="epic-ai-gen.png" 
+                   class="absolute bottom-4 right-4 bg-black/50 backdrop-blur-md text-white px-4 py-2 rounded-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                   Download High-Res
+                </a>
+            </div>
+        `;
     } catch (error) {
-        console.error("Gen Error:", error);
-        display.innerHTML = `<p class="text-red-400">Free tier busy. Try again in 10 seconds!</p>`;
+        console.error("Generation Error:", error);
+        display.innerHTML = `
+            <div class="text-center px-6">
+                <p class="text-red-400 font-medium mb-2">The Free Engine is currently warm.</p>
+                <p class="text-slate-500 text-sm">Wait 30 seconds and click Generate again.</p>
+            </div>
+        `;
     } finally {
-        btn.innerText = "Generate Media";
+        btn.innerText = "Generate Free";
         btn.disabled = false;
     }
 }
 
-// Attach listeners once components are loaded
+// Global initialization
 function initializeApp() {
-    console.log("Epic Tech AI Initialized.");
+    console.log("Epic Tech AI Platform: Ready for generation.");
     
-    // Example: Intercepting the Hero button
-    const mainBtn = document.querySelector('button.btn-glow');
-    if (mainBtn) {
-        mainBtn.addEventListener('click', () => {
-            scrollToId('features');
-            // Logic to open a generation modal or focus input
+    // Add Enter key support for the input
+    const input = document.getElementById('user-prompt');
+    if(input) {
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') generateMedia();
         });
     }
 }
