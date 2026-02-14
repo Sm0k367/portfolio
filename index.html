@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Epic Tech AI | Modular AI Generation Platform</title>
+  
+  <meta name="description" content="The ultimate modular AI generation system for images, video, and audio.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+  
+  <style>
+    /* Initial state for components before they fade in */
+    .component-container { 
+      opacity: 0; 
+      transform: translateY(10px); 
+      transition: all 0.8s ease-out; 
+    }
+    .component-container.loaded { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-50 selection:bg-pink-500/30">
+
+  <svg width="0" height="0" class="absolute">
+    <defs>
+      <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#7928ca" />
+        <stop offset="100%" stop-color="#ff0080" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div id="header-slot"></div>
+  
+  <main>
+    <div id="hero-slot" class="component-container"></div>
+    <div id="features-slot" class="component-container"></div>
+    <div id="cta-slot" class="component-container"></div>
+  </main>
+
+  <div id="footer-slot"></div>
+
+  <script src="js/utils.js"></script>
+  <script>
+    // Define the manifest of components to load
+    const manifest = [
+      { path: 'components/header.html', target: '#header-slot' },
+      { path: 'components/hero.html', target: '#hero-slot' },
+      { path: 'components/features.html', target: '#features-slot' },
+      { path: 'components/cta.html', target: '#cta-slot' },
+      { path: 'components/footer.html', target: '#footer-slot' }
+    ];
+
+    async function startPlatform() {
+      for (const item of manifest) {
+        const success = await loadComponent(item.path, item.target);
+        if (success) {
+          document.querySelector(item.target).classList.add('loaded');
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', startPlatform);
+  </script>
+</body>
+</html>
